@@ -1,19 +1,22 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Calculator from "./pages/Calculator";
+import Login from "./pages/Login";
+import Navbar from "./components/Navbar";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    fetch("http://localhost:5000/")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message));
-  }, []);
-
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-green-700">EcoTrade Platform</h1>
-      <p className="mt-4 text-gray-700">{message}</p>
-    </div>
+    <Router>
+      <Navbar />
+      <div className="p-6">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/calculator" element={<Calculator />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
