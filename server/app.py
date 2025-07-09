@@ -1,9 +1,12 @@
-# server/app.py
 from flask import Flask, jsonify
 from flask_cors import CORS
+from routes.calculator import calculator
 
 app = Flask(__name__)
-CORS(app)  # Allow React frontend to talk to this server
+CORS(app)
+
+# Register calculator blueprint
+app.register_blueprint(calculator)
 
 @app.route('/')
 def index():
