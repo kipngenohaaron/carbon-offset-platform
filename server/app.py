@@ -19,6 +19,10 @@
 #     with app.app_context():
 #         db.create_all()
 #     app.run(debug=True)
+from routes.trade import trade
+app.register_blueprint(trade)
+from models import user, trade
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 from routes.calculator import calculator
