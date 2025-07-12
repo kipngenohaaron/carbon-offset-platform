@@ -7,6 +7,8 @@ function HeroSection() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
           Offset Carbon. <span className="text-yellow-300">Empower the Planet.</span>
+        <h1 className="text-4xl font-bold">THIS IS THE HERO SECTION TEST</h1>
+
         </h1>
         <p className="text-lg md:text-xl mb-8">
           EcoTrade helps you calculate your carbon footprint and trade verified carbon credits with full compliance to the Kyoto Protocol.
