@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from server.models.trade import Trade
-from database import db
+from server.database import db
+from server.models.trade import Trade
+
 
 trade = Blueprint('trade', __name__)
 
