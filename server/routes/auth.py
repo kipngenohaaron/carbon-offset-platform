@@ -1,39 +1,31 @@
 from flask import Blueprint, request, jsonify
-from models.user import User
-from database import db
+from server.models.user import User
+from server.database import db
 import jwt
 import datetime
 
 auth = Blueprint('auth', __name__)
-SECRET_KEY = 'your-secret-key'  # Replace this in production!
+SECRET_KEY = 'carbon-secret-key'
 
 @auth.route('/api/register', methods=['POST'])
 def register():
     data = request.get_json()
-    email = data['email']
-    password = data['password']
-
-    if User.query.filter_by(email=email).first():
-        return jsonify({'message': 'User already exists'}), 400
-
-    user = User(email=email)
-    user.set_password(password)
+    if User.query.filter_by(email=data['email']).first():
+        return jsonify({"error": "Email already exists"}), 400
+    user = User(email=data['email'])
+    user.set_password(data['password'])
     db.session.add(user)
     db.session.commit()
-    return jsonify({'message': 'User registered successfully'}), 201
+    return jsonify({"message": "User registered successfully"}), 201
 
 @auth.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
-    email = data['email']
-    password = data['password']
-
-    user = User.query.filter_by(email=email).first()
-    if user and user.check_password(password):
+    user = User.query.filter_by(email=data['email']).first()
+    if user and user.check_password(data['password']):
         token = jwt.encode({
-            'user_id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
+            'email': user.email,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=2)
         }, SECRET_KEY, algorithm='HS256')
         return jsonify({'token': token})
-    else:
-        return jsonify({'message': 'Invalid credentials'}), 401
+    return jsonify({'error': 'Invalid credentials'}), 401
